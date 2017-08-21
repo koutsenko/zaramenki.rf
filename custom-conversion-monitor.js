@@ -67,7 +67,7 @@ window.addEventListener('load', function() {
       if (event.target.checked) {
         setTimeout(function() {
           listenElement(selectors.chargeDownloads, 'файл платежки', 'click', function(event) { console.log('clicked',   event.target); }, keyByValue[event.target.value]);
-        }, 0);
+        }, 500);
       }
     });
   }, 0);
