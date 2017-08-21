@@ -65,7 +65,9 @@ window.addEventListener('load', function() {
     listenElements(selectors.chargeChoices  , 'кандидат'  , 'change'  , function(event) {
       console.log('Выбор кандидата - смотрим значение атрибута checked', event.target.checked);
       if (event.target.checked) {
-        listenElement(selectors.chargeDownloads, 'файл платежки', 'click', function(event) { console.log('clicked',   event.target); }, keyByValue[event.target.value]);
+        setTimeout(function() {
+          listenElement(selectors.chargeDownloads, 'файл платежки', 'click', function(event) { console.log('clicked',   event.target); }, keyByValue[event.target.value]);
+        }, 0);
       }
     });
   }, 0);
