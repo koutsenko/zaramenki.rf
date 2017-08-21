@@ -46,7 +46,7 @@ window.addEventListener('load', function() {
   setTimeout(function() {
     console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
     // listenElements(selectors.chargeDownloads, 'файл платежки' , 'click'   , function(event) { console.log('clicked',   event.target); });
-    listenElements(selectors.chargeDownloads, 'форма'     , 'submit'  , function(event) { console.log('submitted', event.target); });
+    listenElements(selectors.formSubmits    , 'форма'     , 'submit'  , function(event) { console.log('submitted', event.target); });
     listenElements(selectors.chargeChoices  , 'кандидат'  , 'change'  , function(event) {
       console.log('Выбор кандидата - смотрим значение атрибута checked', event.target.checked);
     });
