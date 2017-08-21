@@ -51,6 +51,24 @@
   };
 
   /**
+   * Мап для самоидентификации формы, для определения id цели.
+   */
+  var keyById = {
+    'CF59712a9e699c0_2'          : 'volunteer'       ,
+    'mc-embedded-subscribe-form' : 'subscribe-mail'  ,
+    'CF597745c668226_4'          : 'subscribe-sms'   
+  };
+
+  /**
+   * ID целей в том виде в котором они заданы в Я.Метрике.
+   */
+  var yaTargets = {
+    'volunteer'       : 'caldera_form_2'              ,
+    'subscribe-mail'  : 'mc-embedded-subscribe-form'  ,
+    'subscribe-sms'   : 'fld_7908577_4'
+  };
+
+  /**
    * Функция подписывающая на события все элементы одной группы.
    */
   var listenElements = function(object, descriptor, eventType, eventListener) {
@@ -92,7 +110,11 @@
       console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
       var timers = {};
   
-      listenElements(selectors.formSubmits    , 'форма'     , 'submit'  , function(event) { console.log('submitted', event.target); });
+      listenElements(selectors.formSubmits    , 'форма'     , 'submit'  , function(event) { 
+        var goal = yaTargets[keyById[event.target.id]];
+        console.log('Регистрируем достижение цели', goal); 
+        yaCounter.reachGoal(goal);
+      });
       listenElements(selectors.chargeChoices  , 'кандидат'  , 'change'  , function(event) {
         // TODO Код работает корректно, т.к. по клику на чекбокс появляются/пропадают оба зависимых элемента
         // Но в целом здесь возможная слабость скрипта. По этой (и по другим) причине надо отслеживать изменения верстки... 
