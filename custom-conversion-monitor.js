@@ -1,5 +1,11 @@
 (function() {
   /**
+   * Имена объектов счетчиков.
+   */
+  var yaCounterName = 'yaCounter45272754';
+  var gaCounterName = 'ga';
+
+  /**
    * Значения селекторов для document.querySelectorAll
    */
   var selectors = {
@@ -29,6 +35,12 @@
   };
 
   /**
+   * ID целей в том виде в котором они заданы в Гугл Аналитике.
+   * Пока решил не усложнять и сделал такие же строковые id.
+   */
+  var gaTargets = yaTargets;
+
+  /**
    * Функция подписывающая на события все элементы одной группы.
    */
   var listenElements = function(object, descriptor, eventType, eventListener) {
@@ -51,11 +63,19 @@
    * Непосредственно исполняемый код скрипта.
    */
   window.addEventListener('load', function() {  
-    var yaCounterName = 'yaCounter45272754';
     var yaCounter = window[yaCounterName];
-    
+    var gaCounter = window[gaCounterName];
+ 
     if (yaCounter === undefined) {
-      console.error('Недоступен счетчик Я.Метрики ' + yaCounterName + ', отслеживание конверсий для событий JavaScript не будет работать');
+      console.error('Недоступен счетчик Я.Метрики ' + yaCounterName + ', отслеживание конверсий js-событий не будет работать для Яндекс.Метрики');
+    }
+
+    if (gaCounter === undefined) {
+      console.error('Недоступен счетчик Гугл Аналитики ' + gaCounterName + ', отслеживание конверсий js-событий не будет работать для Гугл Аналитики');
+    }
+
+    if ((yaCounter === undefined) && (gaCounter === undefined)) {
+      console.error('Оба счетчика недоступны. Скрипт конверсий js-событий остановлен');
       return;
     }
   
@@ -63,9 +83,18 @@
       console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
   
       listenElements(selectors.formSubmits, 'форма', 'submit', function(event) { 
-        var goal = yaTargets[keyById[event.target.id]];
-        console.log('Регистрируем достижение цели', goal); 
-        yaCounter.reachGoal(goal);
+        var yaGoal = yaTargets[keyById[event.target.id]];
+        var gaGoal = gaTargets[keyById[event.target.id]];
+        
+        if (yaCounter !== undefined) {          
+          console.log('Оповещаем Яндекс.Метрику о достижении цели', yaGoal); 
+          yaCounter.reachGoal(yaGoal);
+        }
+
+        if (gaCounter !== undefined) {
+          console.log('Оповещаем Гугл Аналитику о достижении цели', gaGoal); 
+          gaCounter('send', 'event', gaGoal);
+        }
       });
     }, 0);
   });
