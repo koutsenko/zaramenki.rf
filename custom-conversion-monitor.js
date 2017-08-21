@@ -23,9 +23,9 @@
    * ID целей в том виде в котором они заданы в Я.Метрике.
    */
   var yaTargets = {
-    'volunteer'       : 'caldera_form_2'              ,
-    'subscribe-mail'  : 'mc-embedded-subscribe-form'  ,
-    'subscribe-sms'   : 'fld_7908577_4'
+    'volunteer'       : 'form-volunteer'        ,
+    'subscribe-mail'  : 'form-subscribe-email'  ,
+    'subscribe-sms'   : 'form-subscribe-sms'
   };
 
   /**
