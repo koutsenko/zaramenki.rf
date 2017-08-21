@@ -51,7 +51,7 @@
   };
 
   /**
-   * Функция подписывающая на события элементов.
+   * Функция подписывающая на события все элементы одной группы.
    */
   var listenElements = function(object, descriptor, eventType, eventListener) {
     Object.keys(object).forEach(function(key) {
@@ -60,7 +60,7 @@
   };
 
   /**
-   * Функция подписывающая на событие один элемент.
+   * Функция подписывающая на событие все элементы одного селектора.
    */
   var listenElement = function(object, descriptor, eventType, eventListener, key) {
     var selector = object[key];
@@ -86,6 +86,8 @@
   
       listenElements(selectors.formSubmits    , 'форма'     , 'submit'  , function(event) { console.log('submitted', event.target); });
       listenElements(selectors.chargeChoices  , 'кандидат'  , 'change'  , function(event) {
+        // TODO Код работает корректно, т.к. по клику на чекбокс появляются/пропадают оба зависимых элемента
+        // Но в целом здесь возможная слабость скрипта. По этой (и по другим) причине надо отслеживать изменения верстки... 
         console.log('Выбор кандидата - смотрим значение атрибута checked', event.target.checked);
         var key = keyByValue[event.target.value];
         if (event.target.checked) {
