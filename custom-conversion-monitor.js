@@ -60,14 +60,18 @@ window.addEventListener('load', function() {
 
   setTimeout(function() {
     console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
+    var timers = {};
 
     listenElements(selectors.formSubmits    , 'форма'     , 'submit'  , function(event) { console.log('submitted', event.target); });
     listenElements(selectors.chargeChoices  , 'кандидат'  , 'change'  , function(event) {
       console.log('Выбор кандидата - смотрим значение атрибута checked', event.target.checked);
+      var key = keyByValue[event.target.value];
       if (event.target.checked) {
-        setTimeout(function() {
-          listenElement(selectors.chargeDownloads, 'файл платежки', 'click', function(event) { console.log('clicked',   event.target); }, keyByValue[event.target.value]);
+        timers[key] = setTimeout(function() {
+          listenElement(selectors.chargeDownloads, 'файл платежки', 'click', function(event) { console.log('clicked',   event.target); }, key);
         }, 500);
+      } else {
+        clearTimeout(timers[key]);
       }
     });
   }, 0);
