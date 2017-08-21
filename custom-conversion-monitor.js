@@ -35,7 +35,7 @@ window.addEventListener('load', function() {
 
   setTimeout(function() {
     console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
-    listenElements(selectors.chargeDownloads, 'файл платежки' , 'click'   , function(event) { console.log('clicked',   event.target); });
+    // listenElements(selectors.chargeDownloads, 'файл платежки' , 'click'   , function(event) { console.log('clicked',   event.target); });
     listenElements(selectors.chargeDownloads, 'форма'         , 'submit'  , function(event) { console.log('submitted', event.target); });
   }, 0);
 });
