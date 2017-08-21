@@ -80,6 +80,14 @@
    * Непосредственно исполняемый код скрипта.
    */
   window.addEventListener('load', function() {  
+    var yaCounterName = 'yaCounter45272754';
+    var yaCounter = window[yaCounterName];
+    
+    if (yaCounter === undefined) {
+      console.error('Недоступен счетчик Я.Метрики ' + yaCounterName + ', отслеживание конверсий для событий JavaScript не будет работать');
+      return;
+    }
+  
     setTimeout(function() {
       console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
       var timers = {};
