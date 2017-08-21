@@ -27,28 +27,46 @@ window.addEventListener('load', function() {
     }
   };
 
+  var keyByValue = {
+    'Болотин Алексей' : 'bolotin'  ,
+    'Зубко Андрей'    : 'zubko'    ,
+    'Ломова Татьяна'  : 'lomova'   ,
+    'Сенцова Ирина'   : 'sentsova' ,
+    'Хохлова Эмилия'  : 'hohlova'  ,
+    'Плюхов Сергей'   : 'plyuhov'  ,
+    'Денисов Илья'    : 'denisov'  ,
+    'Паисов Дмитрий'  : 'paisov'
+  };
+
   var listenElements = function(object, descriptor, eventType, eventListener) {
     Object.keys(object).forEach(function(key) {
-      var selector = object[key];
-      var elements = document.querySelectorAll(selector);
-      var output = 'Сущность ' + descriptor + ', ключ ' + key + ', селектор ' + selector + ', найдено ' + elements.length + ' элементов';
-      if (!elements.length) {
-        console.error(output);
-      } else {
-        console.log(output);
-        elements.forEach(function(element) {
-          element.addEventListener(eventType, eventListener);
-        });
-      }
+      listenElement(object, descriptor, eventType, eventListener, key);
     });
-  }
+  };
+
+  var listenElement = function(object, descriptor, eventType, eventListener, key) {
+    var selector = object[key];
+    var elements = document.querySelectorAll(selector);
+    var output = 'Сущность ' + descriptor + ', ключ ' + key + ', селектор ' + selector + ', найдено ' + elements.length + ' элементов';
+    if (!elements.length) {
+      console.error(output);
+    } else {
+      console.log(output);
+      elements.forEach(function(element) {
+        element.addEventListener(eventType, eventListener);
+      });
+    }
+  };
 
   setTimeout(function() {
     console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
-    // listenElements(selectors.chargeDownloads, 'файл платежки' , 'click'   , function(event) { console.log('clicked',   event.target); });
+
     listenElements(selectors.formSubmits    , 'форма'     , 'submit'  , function(event) { console.log('submitted', event.target); });
     listenElements(selectors.chargeChoices  , 'кандидат'  , 'change'  , function(event) {
       console.log('Выбор кандидата - смотрим значение атрибута checked', event.target.checked);
+      if (event.target.checked) {
+        listenElement(selectors.chargeDownloads, 'файл платежки', 'click', function(event) { console.log('clicked',   event.target); }, keyByValue[event.target.value]);
+      }
     });
   }, 0);
 });
