@@ -1,5 +1,15 @@
 window.addEventListener('load', function() {
   var selectors = {
+    chargeChoices: {
+      'bolotin' : 'input[type="checkbox"][value="Болотин Алексей"]' ,
+      'zubko'   : 'input[type="checkbox"][value="Зубко Андрей"]'    ,
+      'lomova'  : 'input[type="checkbox"][value="Ломова Татьяна"]'  ,
+      'sentsova': 'input[type="checkbox"][value="Сенцова Ирина"]'   ,
+      'hohlova' : 'input[type="checkbox"][value="Хохлова Эмилия"]'  ,
+      'plyuhov' : 'input[type="checkbox"][value="Плюхов Сергей"]'   ,
+      'denisov' : 'input[type="checkbox"][value="Денисов Илья"]'    ,
+      'paisov'  : 'input[type="checkbox"][value="Паисов Дмитрий"]'
+    },
     chargeDownloads: {
       'bolotin' : 'a[href*="Квитанция-Болотин.pdf"]'  ,
       'zubko'   : 'a[href*="Квитанция-Зубко.pdf"]'    ,
@@ -36,6 +46,9 @@ window.addEventListener('load', function() {
   setTimeout(function() {
     console.log('Отладка custom-conversion-monitor, поиск отслеживаемых элементов');
     // listenElements(selectors.chargeDownloads, 'файл платежки' , 'click'   , function(event) { console.log('clicked',   event.target); });
-    listenElements(selectors.chargeDownloads, 'форма'         , 'submit'  , function(event) { console.log('submitted', event.target); });
+    listenElements(selectors.chargeDownloads, 'форма'     , 'submit'  , function(event) { console.log('submitted', event.target); });
+    listenElements(selectors.chargeChoices  , 'кандидат'  , 'change'  , function(event) {
+      console.log('Выбор кандидата - смотрим значение атрибута checked', event.target.checked);
+    });
   }, 0);
 });
